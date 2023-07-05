@@ -1,0 +1,24 @@
+.order-item-details {
+    background-color: #f7f7f792;
+  }
+  
+  .order-item {
+    border: 1px solid #000000;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .order-item span {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .order-item span:first-child {
+    font-weight: bold;
+  }
+
+  .span{
+    display: flex;
+    gap: 10px;
+  }
+  

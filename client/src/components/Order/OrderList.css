@@ -1,0 +1,10 @@
+.create-order-button button{
+    background-color: rgb(19, 133, 19);
+    color: white;
+}
+
+.order-table-container {
+    max-height: 690px;
+    overflow-y: auto;
+    padding-right: 10px;
+  }

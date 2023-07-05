@@ -1,0 +1,76 @@
+.table {
+    border: 1px solid #000000;
+    border-radius: 4px;
+    padding: 10px;
+  }
+  
+  .table-list {
+    display: flex;
+    flex-direction: column;
+    padding-right: 10px;
+  }
+
+
+  .table-container {
+    height: 620px;
+    overflow: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  th,
+  td {
+    border: 1px solid #000000;
+    padding: 8px;
+  }
+  
+  th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+  }
+  
+  tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  tbody tr:hover {
+    background-color: #eaeaea;
+  }
+  
+  .updateButton{
+    background-color: rgba(255, 166, 0, 0.888);
+    margin: 0;
+  }
+
+  .outOfStock {
+    font-weight: bold;
+    color: red;
+  }
+  
+  .mediumStock {
+    font-weight: bold;
+    color: orange;
+  }
+  
+  .inStock {
+    font-weight: bold;
+    color: green;
+  }
+
+  .createButton{
+    background-color: green;
+    color: white;
+  }
+
+  .actions{
+    display: flex;
+  }
+
+  .deleteButton{
+    background-color: rgb(226, 0, 0);
+    color: white;
+  }
