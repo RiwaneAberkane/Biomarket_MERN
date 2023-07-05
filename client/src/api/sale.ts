@@ -11,3 +11,12 @@ export const getAllSales = () => {
   ).then((res) => res.data);
 }
 
+
+export const postSale = (sale : any) => {
+  return axios.post(`http://localhost:4000/api/sale/create`, sale, {
+    headers:{
+     'x-access-token' : getObjectFromLocalStorage("token")
+    }
+   }
+  ).then((res) => res.data);
+}

@@ -1,14 +1,15 @@
-import axios from "axios";
 import "./Navbar.css";
 import { useUserContext } from "../context/UserContext";
+import { logout } from "../../api/user";
 
 function Navbar() {
-  const { user } = useUserContext();
+  const { user, setToken } = useUserContext();
 
   const handleLogout = async () => {
     try {
-      await axios.get("http://localhost:4000/api/users/logout");
+      await logout();
       localStorage.removeItem("token");
+      setToken("");
       window.location.href = "/login ";
     } catch (error) {
       console.error("Error during logout:", error);

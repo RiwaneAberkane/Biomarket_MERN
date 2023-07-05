@@ -19,3 +19,17 @@ export const getUserById = (userId: string): Promise<UserType | null> => {
     return null;
   });
 };
+
+export const signin = (data: any) => {
+  return axios.post(`http://localhost:4000/api/auth/signin`, data)
+  .then((res) => {
+    return res.data
+  })
+};
+
+export const logout = () => {
+  return axios.get(`http://localhost:4000/api/users/logout`)
+  .then((res) => {
+    return res.data
+  })
+};

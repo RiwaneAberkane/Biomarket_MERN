@@ -11,3 +11,13 @@ export const getAllOrders = () => {
   ).then((res) => res.data);
 }
 
+export const postOrder = (order : any) => {
+  return axios.post(`http://localhost:4000/api/order/create`, order, {
+    headers:{
+     'x-access-token' : getObjectFromLocalStorage("token")
+    }
+   }
+  ).then((res) => res.data);
+}
+
+

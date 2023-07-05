@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../Order/OrderForm.css";
-import { getObjectFromLocalStorage } from "../../utils/utils";
+import { getUser } from "../../api/user";
+import { getProduct } from "../../api/product";
+import { postSale } from "../../api/sale";
 
 interface User {
   _id: string;
@@ -33,34 +34,32 @@ const SaleForm: React.FC = () => {
   const [items, setItems] = useState<SaleItem[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
 
+  const fetchUsers = async () => {
+    try {
+      const users = await getUser();
+      setUsers(users);
+    } catch (error) {
+      console.error(error);
+      // Afficher une notification d'erreur
+      toast.error("Erreur dans la récupération des utilisateurs.");
+    }
+  };
+
+  const fetchProducts = async () => {
+    try {
+      const products = await getProduct();
+      setProducts(products);
+    } catch (error) {
+      console.error(error);
+      // Afficher une notification d'erreur
+      toast.error("Erreur dans la récupération des produits.");
+    }
+  };
   useEffect(() => {
     // Récupérer les utilisateurs depuis l'API
-    axios
-      .get("http://localhost:4000/api/users/all", {
-        headers: {
-          "x-access-token": getObjectFromLocalStorage("token"),
-        },
-      })
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
+    fetchUsers();
     // Récupérer les produits depuis l'API
-    axios
-      .get("http://localhost:4000/api/product/", {
-        headers: {
-          "x-access-token": getObjectFromLocalStorage("token"),
-        },
-      })
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    fetchProducts();
   }, []);
 
   const handleAddItem = () => {
@@ -86,15 +85,7 @@ const SaleForm: React.FC = () => {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/sale/create",
-        sale,
-        {
-          headers: {
-            "x-access-token": getObjectFromLocalStorage("token"),
-          },
-        }
-      );
+      const response = await postSale(sale);
       console.log(response.data);
 
       // Afficher une notification de succès
@@ -106,8 +97,6 @@ const SaleForm: React.FC = () => {
 
       // Afficher une notification d'erreur
       toast.error("Erreur dans la création de la vente.");
-
-      // Gérer l'erreur
     }
   };
 

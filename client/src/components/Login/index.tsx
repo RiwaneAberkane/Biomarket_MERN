@@ -1,8 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 import { useUserContext } from "../context/UserContext";
+import { signin } from "../../api/user";
 
 interface FormData {
   username: string;
@@ -26,10 +27,9 @@ const Login: React.FC = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const url = "http://localhost:4000/api/auth/signin";
-      const { data: res } = await axios.post(url, data);
-      localStorage.setItem("token", res.accessToken);
-      setToken(res.accessToken);
+      const signinData = await signin(data);
+      localStorage.setItem("token", signinData.accessToken);
+      setToken(signinData.accessToken);
       navigate("/");
     } catch (error: any) {
       if (

@@ -1,7 +1,6 @@
 import React from "react";
 import { SaleItemType } from "../../models/SaleItemType";
 import { ProductType } from "../../models/ProductType";
-// import "./OrderItemDetails.css";
 
 interface SaleItemDetailsProps {
   saleItems: SaleItemType[];

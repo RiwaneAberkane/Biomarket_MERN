@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./OrderForm.css";
-import { getObjectFromLocalStorage } from "../../utils/utils";
+import { getUser } from "../../api/user";
+import { getSupplier } from "../../api/supplier";
+import { getProduct } from "../../api/product";
+import { postOrder } from "../../api/order";
 
 interface User {
   _id: string;
@@ -41,44 +43,48 @@ const OrderForm: React.FC = () => {
   const [items, setItems] = useState<OrderItem[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
 
+  const fetchUsers = async () => {
+    try {
+      const users = await getUser();
+      setUsers(users);
+    } catch (error) {
+      console.error(error);
+      // Afficher une notification d'erreur
+      toast.error("Erreur dans la récupération des utilisateurs.");
+    }
+  };
+
+  const fetchSuppliers = async () => {
+    try {
+      const suppliers = await getSupplier();
+      setSuppliers(suppliers);
+    } catch (error) {
+      console.error(error);
+      // Afficher une notification d'erreur
+      toast.error("Erreur dans la récupération des fournisseurs.");
+    }
+  };
+
+  const fetchProducts = async () => {
+    try {
+      const products = await getProduct();
+      setProducts(products);
+    } catch (error) {
+      console.error(error);
+      // Afficher une notification d'erreur
+      toast.error("Erreur dans la récupération des produits.");
+    }
+  };
+
   useEffect(() => {
     // Récupérer les utilisateurs depuis l'API
-    axios
-      .get("http://localhost:4000/api/users/all")
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    fetchUsers();
 
     // Récupérer les fournisseurs depuis l'API
-    axios
-      .get("http://localhost:4000/api/supplier/", {
-        headers: {
-          "x-access-token": getObjectFromLocalStorage("token"),
-        },
-      })
-      .then((response) => {
-        setSuppliers(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    fetchSuppliers();
 
     // Récupérer les produits depuis l'API
-    axios
-      .get("http://localhost:4000/api/product/", {
-        headers: {
-          "x-access-token": getObjectFromLocalStorage("token"),
-        },
-      })
-      .then((response) => {
-        setProducts(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    fetchProducts();
   }, []);
 
   const handleAddItem = () => {
@@ -105,15 +111,7 @@ const OrderForm: React.FC = () => {
     };
 
     try {
-      const response = await axios.post(
-        "http://localhost:4000/api/order/create",
-        order,
-        {
-          headers: {
-            "x-access-token": getObjectFromLocalStorage("token"),
-          },
-        }
-      );
+      const response = await postOrder(order);
       console.log(response.data);
 
       // Afficher une notification de succès

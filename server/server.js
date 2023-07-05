@@ -27,7 +27,6 @@ app.listen(PORT, () => {
 });
 
 const db = require("./app/models");
-const Role = db.role;
 
 db.mongoose
   .connect(`mongodb://localhost/Biomarket`, {
@@ -36,29 +35,11 @@ db.mongoose
   })
   .then(() => {
     console.log("Successfully connect to MongoDB.");
-    initial();
   })
   .catch((err) => {
     console.error("Connection error", err);
     process.exit();
   });
-
-async function initial() {
-  try {
-    const count = await Role.countDocuments().lean();
-    if (count === 0) {
-      await Promise.all([
-        new Role({ name: "employees" }).save(),
-        new Role({ name: "manager" }).save(),
-        new Role({ name: "admin" }).save(),
-      ]);
-
-      console.log("Roles ajoutés à la collection");
-    }
-  } catch (err) {
-    console.error("Erreur lors de l'initialisation des rôles", err);
-  }
-}
 
 // ----------------------------------------------------------------
 const supplierRouter = require("./app/routes/supplier.routes");
